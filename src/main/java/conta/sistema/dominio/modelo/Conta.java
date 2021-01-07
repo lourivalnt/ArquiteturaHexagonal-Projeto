@@ -2,6 +2,10 @@ package conta.sistema.dominio.modelo;
 
 import java.math.BigDecimal;
 
+import static conta.sistema.dominio.modelo.Erro.obrigatorio;
+import static conta.sistema.dominio.modelo.Erro.saldoInsuficiente;
+import static java.util.Objects.isNull;
+
 // Responsável por representar a entidade conta e suas regras.
 // Não sera gerenciado pelo IoC e sim pelo repositorio.
 public class Conta {
@@ -22,9 +26,26 @@ public class Conta {
     }
 
     public void creditar(BigDecimal credito) {
+        if (isNull(credito)) {
+            obrigatorio("Valor crédito");
+        }
+        if (credito.compareTo(BigDecimal.ZERO) <= 0) {
+            obrigatorio("Valor crédito");
+        }
+        saldo = saldo.add(credito);
     }
 
     public void debitar(BigDecimal debito) {
+        if (isNull(debito)) {
+            obrigatorio("Valor débito");
+        }
+        if (debito.compareTo(BigDecimal.ZERO) <= 0) {
+            obrigatorio("Valor débito");
+        }
+        if (debito.compareTo(saldo) > 0) {
+            saldoInsuficiente();
+        }
+        saldo = saldo.subtract(debito);
     }
 
     // gets e sets
