@@ -3,7 +3,7 @@ package conta.sistema.dominio.modelo;
 // Responsável por centralizar todas as mensagens de validações.
 public class Erro {
 
-    // eros genéricos
+    // erros genéricos
     public static void obrigatorio(String nome) {
         throw new NegocioException(nome + " é obrigatório.");
     }
@@ -12,7 +12,7 @@ public class Erro {
         throw new NegocioException(nome + " é inexistente.");
     }
 
-    // eros especificos
+    // erros especificos
     public static void saldoInsuficiente() {
         throw new NegocioException("Saldo insuficiente.");
     }
