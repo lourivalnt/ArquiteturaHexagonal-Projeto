@@ -18,9 +18,19 @@ import static java.util.Objects.isNull;
 @Named
 public class PortaTransferenciaImp implements PortaTransferencia {
 
+    private ContaRepositorio repositorio;
+    private Transferencia transferencia;
+
+    // Ioc por construtor
+    @Inject
+    public PortaTransferenciaImp(ContaRepositorio repositorio, Transferencia transferencia) {
+        this.repositorio = repositorio;
+        this.transferencia = transferencia;
+    }
+
     @Override
     public Conta getConta(Integer numero) {
-        return null;
+        return repositorio.get(numero);
     }
 
     @Override
