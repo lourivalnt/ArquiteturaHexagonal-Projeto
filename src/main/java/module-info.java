@@ -10,4 +10,6 @@ module conta.sistema {
     exports conta.sistema.dominio.servico;
     // expondo adaptadores de saídas (driven)
     exports conta.adaptador;
+
+
 }
