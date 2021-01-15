@@ -64,4 +64,78 @@ public class TesteAdaptadorTransferencia {
             fail("Deva carregar uma conta existente.");
         }
     }
+
+    // negativos transferencia
+
+    @Test
+    @DisplayName("conta crédito como obrigatório")
+    void teste4() {
+        try {
+            porta.transferir(null, contaCredito, cinquenta);
+            fail("Conta débito é obrigatório");
+        } catch (NegocioException e) {
+            assertEquals(e.getMessage(), "Conta débito é obrigatório.");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("conta débito como obrigatório")
+    void teste5() {
+        try {
+            porta.transferir(contaDebito, null, cinquenta);
+            fail("Conta crédito é obrigatório");
+        } catch (NegocioException e) {
+            assertEquals(e.getMessage(), "Conta crédito é obrigatório.");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("valor como obrigatório")
+    void teste6() {
+        try {
+            porta.transferir(contaDebito, contaCredito, null);
+            fail("Valor é obrigatório");
+        } catch (NegocioException e) {
+            assertEquals(e.getMessage(), "Valor é obrigatório.");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("conta débito inexistente")
+    void teste7() {
+        try {
+            porta.transferir(contaInexistente, contaCredito, cinquenta);
+            fail("Conta débito inexistente");
+        } catch (NegocioException e) {
+            assertEquals(e.getMessage(), "Conta débito é inexistente.");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("conta crédito inexistente")
+    void teste8() {
+        try {
+            porta.transferir(contaDebito, contaInexistente, cinquenta);
+            fail("Conta crédito inexistente");
+        } catch (NegocioException e) {
+            assertEquals(e.getMessage(), "Conta crédito é inexistente.");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("mesma conta débito e crédito")
+    void teste9() {
+        try {
+            porta.transferir(contaDebito, contaDebito, cinquenta);
+            fail("Conta crédito e debito deve ser diferentes");
+        } catch (NegocioException e) {
+            assertEquals(e.getMessage(), "Conta débito e crédito devem ser diferentes.");
+            System.out.println(e.getMessage());
+        }
+    }
 }
