@@ -138,4 +138,29 @@ public class TesteAdaptadorTransferencia {
             System.out.println(e.getMessage());
         }
     }
+
+    // Observação:
+    // Não se faz necessario refazer os testes de valor nulo, zero ou negativo, no caso de uso, pois ele repassa os
+    // objetos internos de dominio já testados. Cada teste deve garantir o serviço implementadas dentro da classe a
+    // ser testada e não testar coisas de classes agregadas.
+
+    // positivo transaferencia
+
+    @Test
+    @DisplayName("transferência de 50 reais")
+    void teste10() {
+        try {
+            porta.transferir(contaDebito, contaCredito, cinquenta);
+        } catch (NegocioException e) {
+            fail("Não deve gerar erro de transferência - " + e.getMessage());
+        }
+        try {
+            var credito = porta.getConta(contaCredito);
+            var debito = porta.getConta(contaDebito);
+            assertEquals(credito.getSaldo(), cem.add(cinquenta), "Saldo crédito deve bater");
+            assertEquals(debito.getSaldo(), cem.subtract(cinquenta), "Saldo débito deve bater");
+        } catch (NegocioException e) {
+            fail("Não deve gerar erro de validação de saldo - " + e.getMessage());
+        }
+    }
 }
